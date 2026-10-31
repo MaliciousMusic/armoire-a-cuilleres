@@ -199,7 +199,7 @@ main:focus { outline: none; }
 .hd__pop-note { margin: .7rem 0 0; font-style: italic; color: var(--muted); }
 .hd__pop-addr { margin: .7rem 0 0; padding-top: .7rem; border-top: 1px dashed var(--line); font-size: 1rem; }
 .hd__pop-addr a { color: var(--cacao); font-weight: 600; }
-@media (max-width: 400px) { .hd__bar { gap: .35rem; } .hd .hd__logo { width: 66px; } .hd .hd__status { padding: .4rem .6rem; font-size: .875rem; } .hd__pop { min-width: 0; width: calc(100vw - 2 * var(--gutter)); } }
+@media (max-width: 400px) { .hd__bar { gap: .35rem; } .hd .hd__logo { width: 60px; } .hd__pop { min-width: 0; width: calc(100vw - 2 * var(--gutter)); } }
 [data-pills] { position: relative; }
 .pills { display: flex; gap: 2px; list-style: none; margin: 0; padding: 0; }
 .pill { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 .9rem; border: 0; border-radius: 10px; background: none;
@@ -235,6 +235,11 @@ main:focus { outline: none; }
 @media (max-width: 1179px) { .hd__pills { display: none; } .hd__burger { display: inline-flex; } }
 @media (min-width: 1180px) and (max-width: 1519px) { .hd__cta { display: none; } .hd__pills .pill { padding: 0 .7rem; } }
 @media (max-width: 640px) { .hd__logo { width: 72px; } .hd__cta { display: none; } .langs summary { padding: 0 .65rem; } }
+/* La langue : à droite sur grand écran, à côté de « Ouvert » sur téléphone */
+.langs--m { display: none; }
+@media (max-width: 640px) { .langs--m { display: block; } .langs--d { display: none; } .langs--m ul { left: 0; right: auto; } .langs--m summary { padding: 0 .5rem; }
+  .hd__side { gap: .25rem; } .hd .hd__status { padding: .35rem .55rem; font-size: .8125rem; } }
+@media (max-width: 400px) { .hd .hd__side { gap: .15rem; } .hd .hd__status { padding: .3rem .4rem; font-size: .75rem; } .hd .langs--m summary { padding: 0 .35rem; } }
 /* Menu plein écran : une tablette de chocolat */
 .sheet { position: fixed; top: var(--hd); left: 0; right: 0; bottom: 0; z-index: 1; overflow-y: auto; display: grid; align-content: center; padding: clamp(1.4rem, 5vh, 3rem) var(--gutter) clamp(1.4rem, 5vh, 3rem); animation: sheet-in .35s var(--ease);
   background: linear-gradient(180deg, rgba(38, 24, 15, .35), rgba(38, 24, 15, .15) 40%, rgba(38, 24, 15, .45)), url("/assets/img/insta/rue.webp") center 40% / cover no-repeat var(--cacao-2); }

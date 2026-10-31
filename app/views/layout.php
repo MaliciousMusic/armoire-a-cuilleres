@@ -125,6 +125,14 @@ $ann = tr(setting('announcement', default_settings()['announcement']), $l);
 $langPage = in_array($page, ['home', 'order', 'pro', 'loyalty', 'team', 'access', 'contact', 'legal'], true) ? $page : 'home';
 $pill = fn(array $n, string $cls = 'pill') => '<a class="' . $cls . '" href="' . e($n['href']) . '"' . (isset($n['spy']) ? ' data-spy="' . e($n['spy']) . '"' : '')
     . (!empty($n['current']) ? ' aria-current="page"' : '') . '>' . e($n['short']) . '</a>';
+// Le choix de la langue : à droite sur grand écran, à côté de « Ouvert » sur téléphone
+$langs = function (string $cls) use ($l, $langPage) {
+    $h = '<details class="langs ' . $cls . '"><summary aria-label="' . e(t('nav.lang')) . '"><span>' . e(LANGS[$l]['short']) . '</span></summary><ul role="list">';
+    foreach (LANGS as $k => $L) {
+        $h .= '<li><a href="' . e(url($langPage, $k)) . '" hreflang="' . e($L['hreflang']) . '" lang="' . e($L['hreflang']) . '"' . ($k === $l ? ' aria-current="true"' : '') . '>' . e($L['name']) . '</a></li>';
+    }
+    return $h . '</ul></details>';
+};
 ?>
 <header class="hd hd--<?= in_array($page, ['home', 'contact'], true) ? 'dark' : 'light' ?>" data-hd>
   <nav class="hd__bar" aria-label="<?= e(t('nav.main')) ?>">
@@ -144,6 +152,7 @@ $pill = fn(array $n, string $cls = 'pill') => '<a class="' . $cls . '" href="' .
           <p class="hd__pop-addr"><?= e(shop_address_line()) ?> · <a href="<?= e(url('access', $l)) ?>"><?= e(t('hours.more')) ?></a></p>
         </div>
       </details>
+      <?= $langs('langs--m') ?>
       <div class="hd__pills" data-pills>
         <span class="pills__ind" aria-hidden="true"></span>
         <ul class="pills" role="list">
@@ -166,14 +175,7 @@ $pill = fn(array $n, string $cls = 'pill') => '<a class="' . $cls . '" href="' .
 <?php endforeach ?>
         </ul>
       </div>
-      <details class="langs">
-        <summary aria-label="<?= e(t('nav.lang')) ?>"><span><?= e(LANGS[$l]['short']) ?></span></summary>
-        <ul role="list">
-<?php foreach (LANGS as $k => $L): ?>
-          <li><a href="<?= e(url($langPage, $k)) ?>" hreflang="<?= e($L['hreflang']) ?>" lang="<?= e($L['hreflang']) ?>"<?= $k === $l ? ' aria-current="true"' : '' ?>><?= e($L['name']) ?></a></li>
-<?php endforeach ?>
-        </ul>
-      </details>
+      <?= $langs('langs--d') ?>
       <a class="choc choc--milk hd__cta" href="<?= e(url('order', $l)) ?>"><span><?= e(t('nav.cta')) ?></span></a>
       <button class="choc choc--milk choc--sm hd__burger" type="button" aria-expanded="false" aria-controls="sheet" data-burger><span data-burger-label><?= e(t('nav.open')) ?></span></button>
     </div>
