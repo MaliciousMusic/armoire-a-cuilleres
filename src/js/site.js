@@ -281,7 +281,7 @@
     }
   });
 
-  /* ---------- Les morceaux de chocolat : au clic, une croquée dans le coin (et quelques miettes) */
+  /* ---------- Les carrés des grands crus : au choix, une croquée dans le coin (et quelques miettes) */
   const bite = (el, keep) => {
     el.classList.remove('is-bitten');
     void el.offsetWidth; // relance l'animation
@@ -303,19 +303,6 @@
     }
     if (!keep) { clearTimeout(el._bite); el._bite = setTimeout(() => el.classList.remove('is-bitten'), 2200); }
   };
-  document.addEventListener('click', (e) => {
-    const el = e.target.closest('.choc');
-    if (!el || el.disabled) return;
-    bite(el);
-    // un lien vers une autre page : on laisse le temps de voir la croquée
-    const href = el.tagName === 'A' ? el.getAttribute('href') : null;
-    if (href && !href.startsWith('#') && !href.startsWith('tel:') && !href.startsWith('mailto:') && el.target !== '_blank'
-      && !e.metaKey && !e.ctrlKey && !e.shiftKey && e.button === 0 && !reduced) {
-      e.preventDefault();
-      setTimeout(() => { location.href = el.href; }, 420);
-    }
-  });
-
   /* ---------- Le nuancier des grands crus : la fiche et la jauge du cru touché (le carré choisi est croqué) */
   $$('[data-nuancier]').forEach((nu) => {
     const label = JSON.parse($('[data-cocoa-label]', nu)?.textContent || '"{n} %"');

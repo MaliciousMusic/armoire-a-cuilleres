@@ -134,7 +134,7 @@ $langs = function (string $cls) use ($l, $langPage) {
     return $h . '</ul></details>';
 };
 ?>
-<header class="hd hd--<?= in_array($page, ['home', 'contact'], true) ? 'dark' : 'light' ?>" data-hd>
+<header class="hd hd--<?= in_array($page, ['home', 'contact', 'pro'], true) ? 'dark' : 'light' ?>" data-hd>
   <nav class="hd__bar" aria-label="<?= e(t('nav.main')) ?>">
     <div class="hd__side hd__side--l">
       <details class="hd__hours" data-hours>
@@ -164,7 +164,7 @@ $langs = function (string $cls) use ($l, $langPage) {
     </div>
     <a class="hd__logo" href="<?= e($home) ?>" aria-label="L’Armoire à Cuillères, <?= e(t('nav.home')) ?>">
       <img class="hd__logo-l" src="/assets/brand/logo-creme.svg" alt="" width="134" height="80">
-      <img class="hd__logo-c" src="/assets/brand/logo-cacao.svg" alt="" width="134" height="80">
+      <img class="hd__logo-c" src="/assets/brand/logo-sienne.svg" alt="" width="134" height="80">
     </a>
     <div class="hd__side hd__side--r">
       <div class="hd__pills" data-pills>
