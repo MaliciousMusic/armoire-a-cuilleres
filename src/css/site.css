@@ -299,7 +299,7 @@ html.no-scroll .dock { display: none; }
 .wave__above { fill: var(--above, transparent); }
 .wave__below { fill: var(--below, var(--coquille)); }
 .wave__ribbon { fill: none; stroke: var(--band, var(--cacao)); stroke-width: 96; }
-.wave__text { font-family: var(--f-logo); font-size: 52px; letter-spacing: 2px; fill: var(--band-ink, var(--creme)); text-transform: uppercase; }
+.wave__text { font-family: var(--f-logo); text-rendering: geometricPrecision; font-size: 52px; letter-spacing: 2px; fill: var(--band-ink, var(--creme)); text-transform: uppercase; }
 :lang(es) .wave__text, :lang(zh-Hans) .wave__text { font-family: var(--f-display); font-style: italic; text-transform: none; letter-spacing: 0; }
 .wave--cacao { --band: var(--cacao); --band-ink: var(--caramel-light); }
 .wave--caramel { --band: var(--caramel); --band-ink: var(--cacao-2); }

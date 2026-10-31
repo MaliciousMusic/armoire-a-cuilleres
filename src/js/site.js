@@ -208,23 +208,57 @@
   $$('[data-wave]').forEach((box) => {
     const svg = $('svg', box), above = $('.wave__above', svg), below = $('.wave__below', svg), path = $('.wave__ribbon', svg), tp = $('[data-wave-text]', svg), text = $('text', svg);
     const unit = ($('template[data-wave-unit]', box)?.innerHTML || tp.textContent).replace(/&amp;/g, '&');
+    // le texte suit sa propre ligne, décalée pour que les lettres soient centrées dans l'épaisseur du ruban
+    const line = path.cloneNode();
+    line.removeAttribute('class');
+    line.setAttribute('fill', 'none');
+    line.id = path.id + '-t';
+    path.after(line);
+    tp.setAttribute('href', '#' + line.id);
+    text.setAttribute('dominant-baseline', 'alphabetic');
+    // une mesure hors du ruban : sur la ligne, les lettres qui dépassent son bout ne compteraient pas
+    const probe = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    probe.setAttribute('class', 'wave__text');
+    probe.setAttribute('visibility', 'hidden');
+    svg.appendChild(probe);
+    const ctx = document.createElement('canvas').getContext('2d');
     let unitLen = 0, off = 0, last = 0, on = false;
+    // une sinusoïde en courbes de Bézier (tangentes exactes) : pas d'angles, donc les lettres ne tremblent pas en glissant
+    const curve = (W, mid, A, L, k) => {
+      const h = L / 16, y = (x) => mid + A * Math.sin(k * x), dy = (x) => A * k * Math.cos(k * x);
+      let d = `M${(-L).toFixed(2)} ${y(-L).toFixed(2)}`;
+      for (let x = -L; x < W + L; x += h) {
+        const x2 = x + h;
+        d += `C${(x + h / 3).toFixed(2)} ${(y(x) + (h / 3) * dy(x)).toFixed(2)} ${(x2 - h / 3).toFixed(2)} ${(y(x2) - (h / 3) * dy(x2)).toFixed(2)} ${x2.toFixed(2)} ${y(x2).toFixed(2)}`;
+      }
+      return d;
+    };
     const build = () => {
       const W = box.clientWidth, H = box.clientHeight;
       if (!W || !H) return;
       svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-      const thick = H * 0.46, A = H * 0.16, L = Math.max(460, Math.min(900, W / 1.7));
-      let d = '';
-      for (let x = -L; x <= W + L; x += 12) d += (d ? 'L' : 'M') + x.toFixed(1) + ' ' + (H / 2 + A * Math.sin((2 * Math.PI * x) / L)).toFixed(1);
+      const thick = H * 0.46, A = H * 0.16, L = Math.max(460, Math.min(900, W / 1.7)), k = (2 * Math.PI) / L;
+      const size = Math.round(thick * 0.56);
+      const d = curve(W, H / 2, A, L, k);
       path.setAttribute('d', d);
       above.setAttribute('d', `${d}L${(W + L).toFixed(1)} 0L${(-L).toFixed(1)} 0Z`);
       below.setAttribute('d', `${d}L${(W + L).toFixed(1)} ${H + 1}L${(-L).toFixed(1)} ${H + 1}Z`);
       path.style.strokeWidth = thick + 'px';
-      text.style.fontSize = Math.round(thick * 0.56) + 'px';
-      // assez de texte pour couvrir le ruban, plus une répétition
-      tp.textContent = unit;
-      unitLen = text.getComputedTextLength() || 600;
-      tp.textContent = unit.repeat(Math.ceil((path.getTotalLength() + unitLen) / unitLen) + 1);
+      text.style.fontSize = probe.style.fontSize = size + 'px';
+      // centrage vertical : la hauteur réelle des lettres affichées (majuscules ou non, selon la langue)
+      const cs = getComputedStyle(text);
+      ctx.font = `${cs.fontStyle} ${cs.fontWeight} ${size}px ${cs.fontFamily}`;
+      const sample = unit.replace(/✦/g, '').trim();
+      const m = ctx.measureText(cs.textTransform === 'uppercase' ? sample.toUpperCase() : sample);
+      const shift = (m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2 || size * 0.35;
+      line.setAttribute('d', curve(W, H / 2 + shift, A, L, k));
+      // longueur exacte d'une répétition (les espaces de jonction compris) : la boucle retombe pile au même endroit
+      probe.textContent = unit.repeat(2);
+      const two = probe.getComputedTextLength();
+      probe.textContent = unit.repeat(3);
+      unitLen = probe.getComputedTextLength() - two || 600;
+      tp.textContent = unit.repeat(Math.ceil((line.getTotalLength() + unitLen) / unitLen) + 2);
+      off %= unitLen;
     };
     const tick = (t) => {
       if (!on) return;
@@ -232,11 +266,13 @@
       last = t;
       off -= dt * 0.07;
       if (off <= -unitLen) off += unitLen;
-      tp.setAttribute('startOffset', off.toFixed(1));
+      tp.setAttribute('startOffset', off.toFixed(2));
       requestAnimationFrame(tick);
     };
     build();
-    if ('ResizeObserver' in window) new ResizeObserver(build).observe(box);
+    // la barre d'adresse du téléphone change la hauteur de l'écran, pas la largeur : on ne reconstruit qu'au changement de largeur
+    let lastW = box.clientWidth;
+    if ('ResizeObserver' in window) new ResizeObserver(() => { if (box.clientWidth !== lastW) { lastW = box.clientWidth; build(); } }).observe(box);
     if (document.fonts) document.fonts.ready.then(build);
     if (!reduced) {
       new IntersectionObserver(([e]) => {
