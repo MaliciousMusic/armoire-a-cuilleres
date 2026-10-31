@@ -46,6 +46,7 @@ foreach ($menu as $sec) if (count(crus_of($sec, $l)) >= 3) { $crusSection = (int
   </video>
 <?php endif ?>
   <div class="hero__veil" aria-hidden="true"></div>
+  <span class="gravure gravure--piece-montee hero__gravure" aria-hidden="true"></span>
   <div class="hero__content">
     <h1 class="hero__title" id="hero-title">
       <span class="sr-only"><?= e($title) ?></span>
@@ -85,6 +86,12 @@ foreach ($menu as $sec) if (count(crus_of($sec, $l)) >= 3) { $crusSection = (int
 <div class="spoons" aria-hidden="true"><?= str_repeat('<span></span>', 16) ?></div>
 
 <section class="sec sec--lin menu" id="carte" aria-labelledby="menu-title">
+  <div class="menu__deco" aria-hidden="true">
+    <span class="gravure gravure--croquembouche menu__deco-head"></span>
+<?php foreach (['charlotte', 'piece-montee', 'croquembouche', 'charlotte', 'piece-montee', 'croquembouche', 'charlotte'] as $i => $g): ?>
+    <span class="gravure gravure--<?= $g ?> menu__deco-<?= $i + 1 ?>"></span>
+<?php endforeach ?>
+  </div>
   <div class="wrap">
     <?= view('partials/head', ['num' => '02', 'kicker' => t('menu.kicker'), 'title' => t('menu.title'), 'id' => 'menu-title', 'lead' => t('menu.lead')]) ?>
     <div class="menu__layout">

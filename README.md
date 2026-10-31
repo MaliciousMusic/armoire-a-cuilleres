@@ -52,6 +52,12 @@ avec le code `setup_token` de `app/config.php`). En local, les e-mails sont écr
 
 Après une modification de `src/` : `cd tools && npm install` (une fois), puis `node tools/build.mjs`.
 
+## Illustrations
+
+Les gâteaux dessinés au trait (`www/assets/img/gravures/`) viennent des gravures d'E. Ronjat pour *Le Livre de pâtisserie*
+de Jules Gouffé (1873), dans le domaine public (Wikimedia Commons, « Illustrations from Le Livre de Pâtisserie »),
+réduites à leurs contours pour rejoindre le style de la cuillère du logo.
+
 ## Démo à faire consulter
 
 Une copie statique du site (toutes les pages, dans les cinq langues) est publiée sur GitHub Pages :

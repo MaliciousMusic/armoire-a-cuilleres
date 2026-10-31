@@ -250,7 +250,7 @@ html.no-scroll .dock { display: none; }
 .hero { grid-template-rows: 1fr; }
 .hero__content { align-self: end; display: flex; flex-direction: column; align-items: flex-start; width: min(100% - 2 * var(--gutter), 1560px); margin: 0 auto; padding: calc(var(--hd) + 2rem) 0 calc(clamp(1.4rem, 6vh, 4.2rem) + var(--under)); text-align: left; }
 .hero__place { margin: .9rem 0 0; font-family: var(--f-text); font-style: italic; font-size: clamp(1.2rem, 2vw, 1.6rem); color: var(--peche); }
-.hero__title { margin: 0; font-family: var(--f-title); font-weight: 400; font-synthesis: none; font-size: clamp(2.6rem, min(7.6vw, 11svh), 8rem); line-height: .9; letter-spacing: -.025em; text-transform: uppercase; text-shadow: 0 2px 34px rgba(40, 14, 5, .35); }
+.hero__title { margin: 0; font-family: var(--f-title); font-weight: 400; font-synthesis: none; font-size: clamp(2.6rem, min(7.6vw, 11svh), 8rem); line-height: .9; letter-spacing: -.025em; text-transform: uppercase; }
 .hero__title em { font-style: normal; color: var(--peche); }
 /* les phrases sont empilées dans une même case : la hauteur ne bouge pas quand elles se relaient */
 .rot { display: grid; }
@@ -273,6 +273,37 @@ html.no-scroll .dock { display: none; }
 .status.is-open { background: #DCEFCF; color: #24451B; }
 .status.is-soon { background: #F6E7C3; color: #5C4310; }
 .status.is-closed { background: #F3DCD3; color: #6B2A1D; }
+
+/* ---------- Les gravures : des gâteaux du Livre de pâtisserie de Gouffé (1873, dessins de Ronjat, domaine public),
+   réduits à leurs traits comme la cuillère du logo ; la couleur est celle du texte autour (currentColor) */
+.gravure { display: block; pointer-events: none; background: currentColor; -webkit-mask: var(--g) center / contain no-repeat; mask: var(--g) center / contain no-repeat; aspect-ratio: var(--ar); }
+.gravure--charlotte { --g: url("/assets/img/gravures/charlotte.png"); --ar: 900 / 516; }
+.gravure--croquembouche { --g: url("/assets/img/gravures/croquembouche.png"); --ar: 789 / 900; }
+.gravure--piece-montee { --g: url("/assets/img/gravures/piece-montee.png"); --ar: 713 / 900; }
+/* dans le hero, à droite, en traits crème sur la photo ; le titre lui laisse la place */
+.hero__gravure { display: none; }
+@media (min-width: 1024px) and (min-height: 560px) {
+  .hero__gravure { display: block; position: absolute; z-index: 0; right: clamp(24px, 5vw, 110px); top: calc(var(--hd) + 4vh); height: min(56vh, 520px); color: var(--creme); opacity: .92; }
+  .hero__title { max-width: calc(100% - min(56vh, 520px) * .8 - 6vw); }
+}
+/* la carte : un gâteau à droite du titre, et d'autres en toile de fond, derrière les rubriques */
+.menu { overflow: clip; }  /* clip, pas hidden : la barre de la carte reste collante */
+.menu > .wrap { position: relative; z-index: 1; }
+.menu__deco { position: absolute; inset: 0; z-index: 0; color: var(--sienne); }
+.menu__deco .gravure { position: absolute; }
+.menu__deco-head { top: calc(var(--sec) - 1rem); right: max(var(--gutter), (100% - var(--wrap)) / 2); height: clamp(170px, 22vw, 320px); }
+.menu__deco [class*="menu__deco-"]:not(.menu__deco-head) { opacity: .2; display: none; }
+@media (max-width: 759px) { .menu__deco-head { display: none; } }
+@media (min-width: 1100px) {
+  .menu__deco [class*="menu__deco-"]:not(.menu__deco-head) { display: block; }
+  .menu__deco-1 { left: -70px; top: 16%; width: 380px; transform: rotate(-8deg); }
+  .menu__deco-2 { right: -60px; top: 27%; height: 440px; transform: rotate(6deg); }
+  .menu__deco-3 { left: -50px; top: 40%; height: 420px; transform: rotate(5deg); }
+  .menu__deco-4 { right: -80px; top: 52%; width: 400px; transform: rotate(-6deg); }
+  .menu__deco-5 { left: -40px; top: 63%; height: 430px; transform: rotate(-5deg); }
+  .menu__deco-6 { right: -40px; top: 75%; height: 420px; transform: rotate(7deg); }
+  .menu__deco-7 { left: -60px; top: 88%; width: 380px; transform: rotate(4deg); }
+}
 
 /* ---------- Bandeaux en vague : un ruban ondulé fixe à la jonction de deux rubriques ; le texte y court de droite à gauche */
 .wave { position: relative; z-index: 3; height: clamp(150px, 14vw, 220px); overflow-x: clip; pointer-events: none; }
