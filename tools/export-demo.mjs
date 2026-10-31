@@ -34,8 +34,10 @@ const rewrite = (s) => s
 
 const page = (html, lang) => rewrite(html)
   .replace(/<meta name="robots" content="[^"]*">/, '<meta name="robots" content="noindex, nofollow">')
-  .replace('</head>', `<style>.demo-note{position:fixed;left:12px;bottom:calc(var(--dock) + 12px);z-index:70;max-width:min(420px,calc(100vw - 24px));margin:0;padding:.6rem .9rem;border-radius:12px;background:var(--caramel);color:var(--cacao-2);font-family:var(--f-display);font-size:.95rem;line-height:1.35;box-shadow:0 10px 30px -12px rgba(0,0,0,.5)}</style>\n</head>`)
-  .replace(/(<body[^>]*>)/, `$1\n<p class="demo-note" role="note">${NOTE[lang] || NOTE.fr}</p>`);
+  .replace('</head>', `<style>.demo-note{position:fixed;left:12px;bottom:calc(var(--dock) + 12px);z-index:70;max-width:min(420px,calc(100vw - 24px));margin:0;padding:.6rem .9rem;border-radius:12px;background:var(--caramel);color:var(--cacao-2);font-family:var(--f-display);font-size:.95rem;line-height:1.35;box-shadow:0 10px 30px -12px rgba(0,0,0,.5)}.demo-note__ok{margin-left:.4rem;padding:.15rem .7rem;border:0;border-radius:8px;background:var(--cacao-2);color:var(--creme);font:inherit;font-weight:600;cursor:pointer}</style>\n</head>`)
+  .replace(/(<body[^>]*>)/, `$1\n<p class="demo-note" role="note" hidden>${NOTE[lang] || NOTE.fr} <button type="button" class="demo-note__ok">OK</button></p>`)
+  // l'encart se ferme d'un clic et ne revient plus pendant la visite
+  .replace('</body>', `<script>(()=>{const n=document.querySelector('.demo-note');let seen=false;try{seen=sessionStorage.getItem('demo-note')==='1'}catch(e){}if(seen)return;n.hidden=false;n.querySelector('button').addEventListener('click',()=>{n.remove();try{sessionStorage.setItem('demo-note','1')}catch(e){}})})()</script>\n</body>`);
 
 const write = (rel, data) => {
   const f = path.join(out, rel);
