@@ -238,6 +238,11 @@ html.no-scroll .dock { display: none; }
 .hero { --under: calc(clamp(150px, 14vw, 220px) / 2); position: relative; display: grid; grid-template-rows: 1fr auto; height: calc(100vh + var(--under)); height: calc(100svh - var(--dock) + var(--under)); color: var(--creme); background: var(--cacao-2); isolation: isolate; overflow: hidden; }
 .hero__media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 35% 62%; z-index: -2; }
 @media (max-width: 760px) { .hero__media { object-position: 24% 70%; } }
+/* Sur ordinateur, dès l'arrivée : la vague entière en bas de l'écran ; la photo est rabotée par le haut */
+@media (min-width: 1024px) and (min-height: 560px) {
+  .hero { height: calc(100vh - var(--under)); height: calc(100svh - var(--under)); }
+  .hero__media { object-position: 40% 74%; }
+}
 .hero__veil { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(60, 22, 10, .3), transparent 26%), radial-gradient(120% 90% at 0% 100%, rgba(60, 22, 10, .72), rgba(60, 22, 10, .22) 55%, rgba(60, 22, 10, .05) 80%); }
 .hero { grid-template-rows: 1fr; }
 .hero__content { align-self: end; display: flex; flex-direction: column; align-items: flex-start; width: min(100% - 2 * var(--gutter), 1560px); margin: 0 auto; padding: calc(var(--hd) + 2rem) 0 calc(clamp(1.4rem, 6vh, 4.2rem) + var(--under)); text-align: left; }
