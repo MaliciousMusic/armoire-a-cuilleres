@@ -1,0 +1,9 @@
+app/config.php
+app/data/
+tools/node_modules/
+tools/php/
+*.log
+.DS_Store
+Thumbs.db
+.claude/
+demo-dist/

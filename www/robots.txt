@@ -1,0 +1,30 @@
+# L'Armoire à Cuillères — bar à chocolat & salon de thé, Clermont-Ferrand
+# Moteurs de recherche et assistants IA : bienvenue. Fiche résumée : /llms.txt · carte complète : /llms-full.txt
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*?c=
+Disallow: /*?t=
+
+# Assistants IA (recherche et réponses) : explicitement autorisés
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Applebot
+User-agent: Bingbot
+User-agent: DuckAssistBot
+User-agent: MistralAI-User
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://www.larmoireacuilleres.com/sitemap.xml

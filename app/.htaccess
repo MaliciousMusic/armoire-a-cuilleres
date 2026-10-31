@@ -1,0 +1,7 @@
+# Ce dossier n'est jamais servi sur le web (sécurité, au cas où il serait posé dans www/)
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+  Deny from all
+</IfModule>
