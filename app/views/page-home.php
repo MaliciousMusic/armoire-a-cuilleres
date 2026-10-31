@@ -38,7 +38,7 @@ foreach ($menu as $sec) if (count(crus_of($sec, $l)) >= 3) { $crusSection = (int
 <section class="hero" aria-labelledby="hero-title">
   <img class="hero__media" src="/assets/img/hero-1920.webp" srcset="/assets/img/hero-768.webp 768w, /assets/img/hero-1280.webp 1280w, /assets/img/hero-1920.webp 1920w" sizes="100vw" width="1920" height="1442" alt="" fetchpriority="high" decoding="async">
 <?php if (is_file(public_dir() . '/assets/video/hero.mp4')): ?>
-  <video class="hero__media hero__video" autoplay muted loop playsinline preload="auto" poster="/assets/img/hero-1280.webp" aria-hidden="true" tabindex="-1" data-hero-video>
+  <video class="hero__media hero__video" autoplay muted loop playsinline preload="auto" poster="<?= is_file(public_dir() . '/assets/video/hero-poster.webp') ? '/assets/video/hero-poster.webp' : '/assets/img/hero-1280.webp' ?>" aria-hidden="true" tabindex="-1" data-hero-video>
 <?php if (is_file(public_dir() . '/assets/video/hero.webm')): ?>
     <source src="/assets/video/hero.webm" type="video/webm">
 <?php endif ?>
